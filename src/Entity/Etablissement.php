@@ -45,6 +45,18 @@ class Etablissement
     #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: Visibilitee::class)]
     private array $secteur = [];
 
+    #[ORM\Column]
+    private ?int $code_departement = null;
+
+    #[ORM\Column]
+    private ?int $code_region = null;
+
+    #[ORM\Column]
+    private ?int $code_academie = null;
+
+    #[ORM\Column]
+    private ?int $code_commune = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -169,6 +181,54 @@ class Etablissement
     public function setSecteur(array $secteur): static
     {
         $this->secteur = $secteur;
+
+        return $this;
+    }
+
+    public function getCodeDepartement(): ?int
+    {
+        return $this->code_departement;
+    }
+
+    public function setCodeDepartement(int $code_departement): static
+    {
+        $this->code_departement = $code_departement;
+
+        return $this;
+    }
+
+    public function getCodeRegion(): ?int
+    {
+        return $this->code_region;
+    }
+
+    public function setCodeRegion(int $code_region): static
+    {
+        $this->code_region = $code_region;
+
+        return $this;
+    }
+
+    public function getCodeAcademie(): ?int
+    {
+        return $this->code_academie;
+    }
+
+    public function setCodeAcademie(int $code_academie): static
+    {
+        $this->code_academie = $code_academie;
+
+        return $this;
+    }
+
+    public function getCodeCommune(): ?int
+    {
+        return $this->code_commune;
+    }
+
+    public function setCodeCommune(int $code_commune): static
+    {
+        $this->code_commune = $code_commune;
 
         return $this;
     }
