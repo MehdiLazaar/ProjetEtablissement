@@ -17,46 +17,89 @@ final class EtablissementController extends AbstractController
         ]);
     }
     #[Route('/etablissements/departement/{departement}', name: 'app_etablissements_departement')]
-    public function listByDepartement(string $departement, EtablissementRepository $repository): Response
+    public function listeParDepartement(string $departement, EtablissementRepository $repository): Response
     {
         $etablissements = $repository->findBy(['departement' => $departement]);
 
-        return $this->render('etablissement/list_by_departement.html.twig', [
+        return $this->render('etablissement/listePardepartement.html.twig', [
             'etablissements'  => $etablissements,
             'departement'     => $departement,
         ]);
     }
 
     #[Route('/etablissements/region/{region}', name: 'app_etablissements_region')]
-    public function listByRegion(string $region, EtablissementRepository $repository): Response
+    public function listeParRegion(string $region, EtablissementRepository $repository): Response
     {
         $etablissements = $repository->findBy(['region' => $region]);
 
-        return $this->render('etablissement/list_by_region.html.twig', [
+        return $this->render('etablissement/listeParregion.html.twig', [
             'etablissements' => $etablissements,
             'region'         => $region,
         ]);
     }
 
     #[Route('/etablissements/commune/{commune}', name: 'app_etablissements_commune')]
-    public function listByCommune(string $commune, EtablissementRepository $repository): Response
+    public function listeParCommune(string $commune, EtablissementRepository $repository): Response
     {
         $etablissements = $repository->findBy(['commune' => $commune]);
 
-        return $this->render('etablissement/list_by_commune.html.twig', [
+        return $this->render('etablissement/listeParcommune.html.twig', [
             'etablissements' => $etablissements,
             'commune'        => $commune,
         ]);
     }
 
     #[Route('/etablissements/academie/{academie}', name: 'app_etablissements_academie')]
-    public function listByAcademie(string $academie, EtablissementRepository $repository): Response
+    public function listeParAcademie(string $academie, EtablissementRepository $repository): Response
     {
         $etablissements = $repository->findBy(['academie' => $academie]);
 
-        return $this->render('etablissement/list_by_academie.html.twig', [
+        return $this->render('etablissement/listeParacademie.html.twig', [
             'etablissements' => $etablissements,
             'academie'       => $academie,
+        ]);
+    }
+    #[Route('/etablissements/departement/{code_departement}', name: 'app_etablissements_departement')]
+    public function listeParCodeDepartement(int $code_departement, EtablissementRepository $repository): Response
+    {
+        $etablissements = $repository->findBy(['code_departement' => $code_departement]);
+
+        return $this->render('etablissement/listePardepartement.html.twig', [
+            'etablissements'   => $etablissements,
+            'code_departement' => $code_departement,
+        ]);
+    }
+
+    #[Route('/etablissements/commune/{code_commune}', name: 'app_etablissements_commune')]
+    public function listeParCodeCommune(int $code_commune, EtablissementRepository $repository): Response
+    {
+        $etablissements = $repository->findBy(['code_commune' => $code_commune]);
+
+        return $this->render('etablissement/listeParcommune.html.twig', [
+            'etablissements' => $etablissements,
+            'code_commune'   => $code_commune,
+        ]);
+    }
+
+    #[Route('/etablissements/region/{code_region}', name: 'app_etablissements_region')]
+    public function listeParCodeRegion(int $code_region, EtablissementRepository $repository): Response
+    {
+        $etablissements = $repository->findBy(['code_region' => $code_region]);
+
+        return $this->render('etablissement/listeParregion.html.twig', [
+            'etablissements' => $etablissements,
+            'code_region'    => $code_region,
+        ]);
+    }
+
+    #[Route('/etablissements/academie/{code_academie}', name: 'app_etablissements_academie')]
+    public function listeParCodeAcademie(int $code_academie, EtablissementRepository $repository): Response
+    {
+        $etablissements = $repository->findBy(['code_academie' => $code_academie]);
+
+        return $this->render('etablissement/listeParacademie.html.twig', [
+            'etablissements'  => $etablissements,
+            'code_academie'   => $code_academie,
         ]);
     }
 }
