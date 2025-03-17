@@ -57,6 +57,9 @@ class Etablissement
     #[ORM\Column]
     private ?int $code_commune = null;
 
+    #[ORM\Column]
+    private ?float $latitude = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -229,6 +232,18 @@ class Etablissement
     public function setCodeCommune(int $code_commune): static
     {
         $this->code_commune = $code_commune;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(float $latitude): static
+    {
+        $this->latitude = $latitude;
 
         return $this;
     }
