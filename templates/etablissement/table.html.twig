@@ -13,42 +13,28 @@
     <tr>
         <th>Appellation officielle</th>
         <th>Dénomination principale</th>
-        <th>Adresse</th>
         <th>Commune</th>
         <th>Département</th>
         <th>Région</th>
-        <th>Académie</th>
-        <th>Date d'ouverture</th>
         <th>Secteur</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
         <th>Commentaires</th>
-        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     {% for etablissement in etablissements %}
         <tr>
-            <td>
-                <a href="{{ path('app_etablissement_show', { id: etablissement.id }) }}" class="btn btn-sm btn-outline-primary">
+            <td> <a href="{{ path('app_etablissement_show', { id: etablissement.id }) }}" class="btn btn-sm btn-outline-primary">
                     🔍 Voir
-                </a>
-            </td>
-            <td>{{ etablissement.appellationOfficiel }}</td>
+                </a> {{ etablissement.appellationOfficiel }}</td>
             <td>{{ etablissement.denominationPrincipale }}</td>
-            <td>{{ etablissement.adresse }}</td>
             <td>{{ etablissement.commune }}</td>
             <td>{{ etablissement.departement }}</td>
             <td>{{ etablissement.region }}</td>
-            <td>{{ etablissement.academie }}</td>
-            <td>{{ etablissement.dateOuverture|date('d/m/Y') }}</td>
             <td>
                 {% for secteur in etablissement.secteur %}
                     <span class="badge bg-info text-dark">{{ secteur.value }}</span><br>
                 {% endfor %}
             </td>
-            <td>{{ etablissement.latitude }}</td>
-            <td>{{ etablissement.longitude }}</td>
             <td>
                 {% if etablissement.commentaires|length > 0 %}
                     <ul class="list-unstyled">

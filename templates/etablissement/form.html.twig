@@ -1,18 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Formulaire Établissement{% endblock %}
+{% block title %}{{ form.vars.value.id ? 'Modifier' : 'Ajouter' }} un établissement{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1 class="my-4 text-center">
-            {{ form.vars.value.id ? 'Modifier' : 'Ajouter' }} un établissement
-        </h1>
-
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary mt-3">
-            {{ form.vars.value.id ? 'Mettre à jour' : 'Ajouter' }}
-        </button>
-        {{ form_end(form) }}
+    <div class="container my-5">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h2 class="mb-0">{{ form.vars.value.id ? 'Modifier' : 'Ajouter' }} un établissement</h2>
+            </div>
+            <div class="card-body p-4">
+                {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+                <div class="row g-4">
+                    {% for field in form %}
+                        {% if field.vars.name != '_token' %}
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form_label(field, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                                    {{ form_widget(field, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                                    {% if field.vars.errors|length > 0 %}
+                                        <div class="text-danger small">
+                                            {{ field.vars.errors|first.message }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success px-4">
+                        {{ form.vars.value.id ? 'Mettre à jour' : 'Ajouter' }}
+                    </button>
+                    <a href="{{ path('app_etablissement') }}" class="btn btn-secondary ms-2">Annuler</a>
+                </div>
+                {{ form_end(form, {'render_rest': false}) }}
+            </div>
+        </div>
     </div>
 {% endblock %}
