@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire Établissement{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-4 text-center">
+            {{ form.vars.value.id ? 'Modifier' : 'Ajouter' }} un établissement
+        </h1>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary mt-3">
+            {{ form.vars.value.id ? 'Mettre à jour' : 'Ajouter' }}
+        </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

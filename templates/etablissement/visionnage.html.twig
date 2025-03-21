@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de l'établissement{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Détails de l'établissement</h1>
+
+        <table class="table table-bordered table-hover">
+            <tbody>
+            <tr>
+                <th>Appellation officielle</th>
+                <td>{{ etablissement.appellationOfficiel }}</td>
+            </tr>
+            <tr>
+                <th>Dénomination principale</th>
+                <td>{{ etablissement.denominationPrincipale }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ etablissement.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Commune</th>
+                <td>{{ etablissement.commune }}</td>
+            </tr>
+            <tr>
+                <th>Département</th>
+                <td>{{ etablissement.departement }}</td>
+            </tr>
+            <tr>
+                <th>Région</th>
+                <td>{{ etablissement.region }}</td>
+            </tr>
+            <tr>
+                <th>Académie</th>
+                <td>{{ etablissement.academie }}</td>
+            </tr>
+            <tr>
+                <th>Date d'ouverture</th>
+                <td>{{ etablissement.dateOuverture|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>Secteur</th>
+                <td>
+                    {% for secteur in etablissement.secteur %}
+                        <span class="badge bg-info text-dark">{{ secteur.value }}</span>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ etablissement.latitude }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ etablissement.longitude }}</td>
+            </tr>
+            <tr>
+                <th>Commentaires</th>
+                <td>
+                    {% if etablissement.commentaires|length > 0 %}
+                        <ul class="list-unstyled">
+                            {% for commentaire in etablissement.commentaires %}
+                                <li class="mb-3">
+                                    <strong>{{ commentaire.auteur }}</strong>
+                                    ({{ commentaire.note }}/5)
+                                    <small class="text-muted"> - {{ commentaire.dateCreation|date('d/m/Y H:i') }}</small><br>
+                                    <em>{{ commentaire.texteCommentaire }}</em>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <em>Aucun commentaire</em>
+                    {% endif %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="text-center mt-4">
+            <a href="{{ path('app_etablissement') }}" class="btn btn-secondary">⬅ Retour à la liste</a>
+        </div>
+    </div>
+{% endblock %}

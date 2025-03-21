@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Etablissement;
+use App\Form\EtablissementType;
 use App\Repository\EtablissementRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class EtablissementController extends AbstractController
 {
-    #[Route('/etablissement', name: 'app_etablissement')]
+    #[Route('/etablissement', name: 'app_etablissement', methods: ['GET'])]
     public function index(EtablissementRepository $repo, PaginatorInterface $paginator, Request $request): Response
     {
         $query = $repo->createQueryBuilder('e')->getQuery();
@@ -28,7 +31,7 @@ final class EtablissementController extends AbstractController
             'etablissements' => $etablissements,
         ]);
     }
-    #[Route('/etablissements/departement/{departement}', name: 'app_etablissements_departement_nom')]
+    #[Route('/etablissements/departement/{departement}', name: 'app_etablissements_departement_nom',methods: ['GET'])]
     public function listeParDepartement(string $departement, EtablissementRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $query = $repository->createQueryBuilder('e')
@@ -44,7 +47,7 @@ final class EtablissementController extends AbstractController
         ]);
     }
 
-    #[Route('/etablissements/region/{region}', name: 'app_etablissements_region_nom')]
+    #[Route('/etablissements/region/{region}', name: 'app_etablissements_region_nom',methods: ['GET'])]
     public function listeParRegion(string $region, EtablissementRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $query = $repository->createQueryBuilder('e')
@@ -60,7 +63,7 @@ final class EtablissementController extends AbstractController
         ]);
     }
 
-    #[Route('/etablissements/commune/{commune}', name: 'app_etablissements_commune_nom')]
+    #[Route('/etablissements/commune/{commune}', name: 'app_etablissements_commune_nom',methods: ['GET'])]
     public function listeParCommune(string $commune, EtablissementRepository $repository,PaginatorInterface $paginator, Request $request): Response
     {
         $query = $repository->createQueryBuilder('e')
@@ -76,7 +79,7 @@ final class EtablissementController extends AbstractController
         ]);
     }
 
-    #[Route('/etablissements/academie/{academie}', name: 'app_etablissements_academie_nom')]
+    #[Route('/etablissements/academie/{academie}', name: 'app_etablissements_academie_nom',methods: ['GET'])]
     public function listeParAcademie(string $academie, EtablissementRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $query = $repository->createQueryBuilder('e')
@@ -91,7 +94,7 @@ final class EtablissementController extends AbstractController
             'academie' => $academie,
         ]);
     }
-    #[Route('/etablissements/departement/code/{code_departement}', name: 'app_etablissements_departement_code')]
+    #[Route('/etablissements/departement/code/{code_departement}', name: 'app_etablissements_departement_code',methods: ['GET'])]
     public function listeParCodeDepartement(int $code_departement, EtablissementRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $query = $repository->createQueryBuilder('e')
@@ -107,7 +110,7 @@ final class EtablissementController extends AbstractController
         ]);
     }
 
-    #[Route('/etablissements/commune/code/{code_commune}', name: 'app_etablissements_commune_code')]
+    #[Route('/etablissements/commune/code/{code_commune}', name: 'app_etablissements_commune_code',methods: ['GET'])]
     public function listeParCodeCommune(int $code_commune, EtablissementRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $query = $repository->createQueryBuilder('e')
@@ -123,7 +126,7 @@ final class EtablissementController extends AbstractController
         ]);
     }
 
-    #[Route('/etablissements/region/code/{code_region}', name: 'app_etablissements_region_code')]
+    #[Route('/etablissements/region/code/{code_region}', name: 'app_etablissements_region_code',methods: ['GET'])]
     public function listeParCodeRegion(int $code_region, EtablissementRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $query = $repository->createQueryBuilder('e')
@@ -139,7 +142,7 @@ final class EtablissementController extends AbstractController
         ]);
     }
 
-    #[Route('/etablissements/academie/code/{code_academie}', name: 'app_etablissements_academie_code')]
+    #[Route('/etablissements/academie/code/{code_academie}', name: 'app_etablissements_academie_code',methods: ['GET'])]
     public function listeParCodeAcademie(int $code_academie, EtablissementRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $query = $repository->createQueryBuilder('e')
@@ -152,6 +155,58 @@ final class EtablissementController extends AbstractController
         return $this->render('etablissement/listeParacademie.html.twig', [
             'etablissements' => $etablissements,
             'code_academie' => $code_academie,
+        ]);
+    }
+    #[Route('/etablissement/ajout', name: 'app_etablissement_ajout', methods: ['GET', 'POST'])]
+    public function ajout(Request $request, EntityManagerInterface $em): Response
+    {
+        $etablissement = new Etablissement();
+        $form = $this->createForm(EtablissementType::class, $etablissement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($etablissement);
+            $em->flush();
+            $this->addFlash('success', 'Établissement ajouté avec succès.');
+            return $this->redirectToRoute('app_etablissement');
+        }
+
+        return $this->render('etablissement/form.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/etablissement/modifier/{id}', name: 'app_etablissement_modifier', methods: ['GET', 'POST'])]
+    public function modifier(Etablissement $etablissement, Request $request, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(EtablissementType::class, $etablissement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Établissement modifié avec succès.');
+            return $this->redirectToRoute('app_etablissement');
+        }
+
+        return $this->render('etablissement/form.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/etablissement/supprimer/{id}', name: 'app_etablissement_supprimer', methods: ['POST'])]
+    public function supprimer(Request $request, Etablissement $etablissement, EntityManagerInterface $em): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$etablissement->getId(), $request->request->get('_token'))) {
+            $em->remove($etablissement);
+            $em->flush();
+            $this->addFlash('success', 'Établissement supprimé avec succès.');
+        }
+
+        return $this->redirectToRoute('app_etablissement');
+    }
+    #[Route('/etablissement/{id}', name: 'app_etablissement_show', methods: ['GET'])]
+    public function VisionnageEtablissement(Etablissement $etablissement): Response
+    {
+        return $this->render('etablissement/visionnage.html.twig', [
+            'etablissement' => $etablissement,
         ]);
     }
 }
