@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Établissements par région{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-4 text-center">
+            Établissements de la région : {{ region ?? code_region }}
+        </h1>
+
+        {% include 'etablissement/table.html.twig' %}
+    </div>
+{% endblock %}

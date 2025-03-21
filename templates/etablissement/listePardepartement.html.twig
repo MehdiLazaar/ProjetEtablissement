@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Établissements par département{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-4 text-center">
+            Établissements du département : {{ departement ?? code_departement }}
+        </h1>
+
+        {% include 'etablissement/table.html.twig' %}
+
+    </div>
+{% endblock %}

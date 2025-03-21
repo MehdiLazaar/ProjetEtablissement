@@ -1,0 +1,63 @@
+<table class="table table-bordered table-striped table-hover">
+    <thead class="table-dark">
+    <tr>
+        <th>Appellation officielle</th>
+        <th>Dénomination principale</th>
+        <th>Adresse</th>
+        <th>Commune</th>
+        <th>Département</th>
+        <th>Région</th>
+        <th>Académie</th>
+        <th>Date d'ouverture</th>
+        <th>Secteur</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Commentaires</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for etablissement in etablissements %}
+        <tr>
+            <td>{{ etablissement.appellationOfficiel }}</td>
+            <td>{{ etablissement.denominationPrincipale }}</td>
+            <td>{{ etablissement.adresse }}</td>
+            <td>{{ etablissement.commune }}</td>
+            <td>{{ etablissement.departement }}</td>
+            <td>{{ etablissement.region }}</td>
+            <td>{{ etablissement.academie }}</td>
+            <td>{{ etablissement.dateOuverture|date('d/m/Y') }}</td>
+            <td>
+                {% for secteur in etablissement.secteur %}
+                    <span class="badge bg-info text-dark">{{ secteur.value }}</span><br>
+                {% endfor %}
+            </td>
+            <td>{{ etablissement.latitude }}</td>
+            <td>{{ etablissement.longitude }}</td>
+            <td>
+                {% if etablissement.commentaires|length > 0 %}
+                    <ul class="list-unstyled">
+                        {% for commentaire in etablissement.commentaires %}
+                            <li class="mb-2">
+                                <strong>{{ commentaire.auteur }}</strong>
+                                <span class="text-warning">({{ commentaire.note }}/5)</span><br>
+                                <small>{{ commentaire.dateCreation|date('d/m/Y H:i') }}</small><br>
+                                "{{ commentaire.texteCommentaire }}"
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <em>Aucun commentaire</em>
+                {% endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="12" class="text-center">Aucun établissement trouvé.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="my-4 text-center">
+    <a href="{{ path('app_etablissement') }}" class="btn btn-secondary">Retour à la liste générale</a>
+</div>

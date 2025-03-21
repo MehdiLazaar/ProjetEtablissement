@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Établissements par académie{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-4 text-center">
+            Établissements de l'académie : {{ academie ?? code_academie }}
+        </h1>
+        {% include 'etablissement/table.html.twig' %}
+    </div>
+{% endblock %}

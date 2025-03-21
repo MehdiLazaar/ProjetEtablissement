@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Établissements par commune{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-4 text-center">
+            Établissements de la commune : {{ commune ?? code_commune }}
+        </h1>
+        {% include 'etablissement/table.html.twig' %}
+    </div>
+{% endblock %}

@@ -1,62 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste complète des établissements{% endblock %}
+{% block title %}Liste des établissements{% endblock %}
 
 {% block body %}
-    <h1>Liste complète des établissements</h1>
+    <div class="container">
+        <h1 class="my-4 text-center">Liste complète des établissements</h1>
 
-    <table border="1" cellspacing="0" cellpadding="8">
-        <thead>
-        <tr>
-            <th>Appellation officielle</th>
-            <th>Dénomination principale</th>
-            <th>Adresse</th>
-            <th>Commune</th>
-            <th>Département</th>
-            <th>Région</th>
-            <th>Académie</th>
-            <th>Date d'ouverture</th>
-            <th>Secteur</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Commentaires</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for etablissement in etablissements %}
-            <tr>
-                <td>{{ etablissement.appellationOfficiel }}</td>
-                <td>{{ etablissement.denominationPrincipale }}</td>
-                <td>{{ etablissement.adresse }}</td>
-                <td>{{ etablissement.commune }}</td>
-                <td>{{ etablissement.departement }}</td>
-                <td>{{ etablissement.region }}</td>
-                <td>{{ etablissement.academie }}</td>
-                <td>{{ etablissement.dateOuverture|date('d/m/Y') }}</td>
-                <td>
-                    {% for secteur in etablissement.secteur %}
-                        {{ secteur.value }}<br>
-                    {% endfor %}
-                </td>
-                <td>{{ etablissement.latitude }}</td>
-                <td>{{ etablissement.longitude }}</td>
-                <td>
-                    {% if etablissement.commentaires|length > 0 %}
-                        <ul>
-                            {% for commentaire in etablissement.commentaires %}
-                                <li>
-                                    <strong>{{ commentaire.auteur }}</strong>
-                                    ({{ commentaire.note }}/5) - {{ commentaire.dateCreation|date('d/m/Y H:i') }}<br>
-                                    "{{ commentaire.texteCommentaire }}"
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        Aucun commentaire
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        {% include 'etablissement/table.html.twig' %}
+
+        <div class="pagination justify-content-center">
+            {{ knp_pagination_render(etablissements) }}
+        </div>
+    </div>
 {% endblock %}
