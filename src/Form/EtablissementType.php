@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Etablissement;
+use App\Enum\Visibilitee;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,7 +25,15 @@ class EtablissementType extends AbstractType
             ->add('dateOuverture', null, [
                 'widget' => 'single_text',
             ])
-            ->add('secteur')
+            ->add('secteur', ChoiceType::class, [
+                'choices' => [
+                    'Public' => Visibilitee::PUBLIC,
+                    'Privé' => Visibilitee::PRIVATE,
+                ],
+                'expanded' => true,  // Boutons radio
+                'multiple' => true,  // ✅ Accepte un tableau
+                'label' => 'Secteur'
+            ])
             ->add('code_departement')
             ->add('code_region')
             ->add('code_academie')

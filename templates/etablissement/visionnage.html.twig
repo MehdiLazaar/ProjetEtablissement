@@ -8,38 +8,14 @@
 
         <table class="table table-bordered table-hover">
             <tbody>
-            <tr>
-                <th>Appellation officielle</th>
-                <td>{{ etablissement.appellationOfficiel }}</td>
-            </tr>
-            <tr>
-                <th>Dénomination principale</th>
-                <td>{{ etablissement.denominationPrincipale }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ etablissement.adresse }}</td>
-            </tr>
-            <tr>
-                <th>Commune</th>
-                <td>{{ etablissement.commune }}</td>
-            </tr>
-            <tr>
-                <th>Département</th>
-                <td>{{ etablissement.departement }}</td>
-            </tr>
-            <tr>
-                <th>Région</th>
-                <td>{{ etablissement.region }}</td>
-            </tr>
-            <tr>
-                <th>Académie</th>
-                <td>{{ etablissement.academie }}</td>
-            </tr>
-            <tr>
-                <th>Date d'ouverture</th>
-                <td>{{ etablissement.dateOuverture|date('d/m/Y') }}</td>
-            </tr>
+            <tr><th>Appellation officielle</th><td>{{ etablissement.appellationOfficiel }}</td></tr>
+            <tr><th>Dénomination principale</th><td>{{ etablissement.denominationPrincipale }}</td></tr>
+            <tr><th>Adresse</th><td>{{ etablissement.adresse }}</td></tr>
+            <tr><th>Commune</th><td>{{ etablissement.commune }}</td></tr>
+            <tr><th>Département</th><td>{{ etablissement.departement }}</td></tr>
+            <tr><th>Région</th><td>{{ etablissement.region }}</td></tr>
+            <tr><th>Académie</th><td>{{ etablissement.academie }}</td></tr>
+            <tr><th>Date d'ouverture</th><td>{{ etablissement.dateOuverture|date('d/m/Y') }}</td></tr>
             <tr>
                 <th>Secteur</th>
                 <td>
@@ -48,14 +24,8 @@
                     {% endfor %}
                 </td>
             </tr>
-            <tr>
-                <th>Latitude</th>
-                <td>{{ etablissement.latitude }}</td>
-            </tr>
-            <tr>
-                <th>Longitude</th>
-                <td>{{ etablissement.longitude }}</td>
-            </tr>
+            <tr><th>Latitude</th><td>{{ etablissement.latitude }}</td></tr>
+            <tr><th>Longitude</th><td>{{ etablissement.longitude }}</td></tr>
             <tr>
                 <th>Commentaires</th>
                 <td>
@@ -79,7 +49,37 @@
         </table>
 
         <div class="text-center mt-4">
+            <a href="{{ path('app_etablissement_modifier', { id: etablissement.id }) }}" class="btn btn-warning">✏ Modifier</a>
+
+            <form method="post" action="{{ path('app_etablissement_supprimer', { id: etablissement.id }) }}" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet établissement ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ etablissement.id) }}">
+                <button type="submit" class="btn btn-danger">🗑 Supprimer</button>
+            </form>
+
             <a href="{{ path('app_etablissement') }}" class="btn btn-secondary">⬅ Retour à la liste</a>
         </div>
+
+        <hr>
+
+        <h2 class="mt-5">Ajouter un commentaire</h2>
+        {{ form_start(formCommentaire) }}
+        <div class="row g-3">
+            <div class="col-md-6">
+                {{ form_label(formCommentaire.auteur, null, {'class': 'form-label'}) }}
+                {{ form_widget(formCommentaire.auteur, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_label(formCommentaire.note, null, {'class': 'form-label'}) }}
+                {{ form_widget(formCommentaire.note, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-12">
+                {{ form_label(formCommentaire.texteCommentaire, null, {'class': 'form-label'}) }}
+                {{ form_widget(formCommentaire.texteCommentaire, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">💬 Ajouter le commentaire</button>
+        </div>
+        {{ form_end(formCommentaire) }}
     </div>
 {% endblock %}

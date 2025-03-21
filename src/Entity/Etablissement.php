@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EtablissementRepository::class)]
 class Etablissement
@@ -18,24 +19,35 @@ class Etablissement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "L'appellation officielle ne peut pas être vide.")]
     private ?string $appellationOfficiel = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La denomination principale ne peut pas être vide.")]
     private ?string $denominationPrincipale = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "La longitude est requise.")]
+    #[Assert\Range(
+        min: -180,
+        max: 180,
+        notInRangeMessage: "La longitude doit être comprise entre -180 et 180."
+    )]
     private ?float $longitude = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le departement ne peut pas être vide.")]
     private ?string $departement = null;
 
     #[ORM\Column(length: 150)]
+    #[Assert\NotBlank(message: "La commune ne peut pas être vide.")]
     private ?string $commune = null;
 
     #[ORM\Column(length: 200)]
+    #[Assert\NotBlank(message: "La region ne peut pas être vide.")]
     private ?string $region = null;
 
     #[ORM\Column(length: 200)]
@@ -45,6 +57,7 @@ class Etablissement
     private ?\DateTimeInterface $dateOuverture = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: Visibilitee::class)]
+    #[Assert\NotBlank(message: "Le secteur est obligatoire.")]
     private array $secteur = [];
 
     #[ORM\Column]
@@ -60,6 +73,12 @@ class Etablissement
     private ?int $code_commune = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "La latitude est requise.")]
+    #[Assert\Range(
+        min: -90,
+        max: 90,
+        notInRangeMessage: "La latitude doit être comprise entre -90 et 90."
+    )]
     private ?float $latitude = null;
 
     /**

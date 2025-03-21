@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Commentaire;
 use App\Entity\Etablissement;
+use App\Form\CommentaireType;
 use App\Form\EtablissementType;
 use App\Repository\EtablissementRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -202,11 +204,27 @@ final class EtablissementController extends AbstractController
 
         return $this->redirectToRoute('app_etablissement');
     }
-    #[Route('/etablissement/{id}', name: 'app_etablissement_show', methods: ['GET'])]
-    public function VisionnageEtablissement(Etablissement $etablissement): Response
+    #[Route('/etablissement/{id}', name: 'app_etablissement_show', methods: ['GET', 'POST'])]
+    public function VisionnageEtablissement(Etablissement $etablissement, Request $request, EntityManagerInterface $em): Response
     {
+        $commentaire = new Commentaire();
+        $form = $this->createForm(CommentaireType::class, $commentaire);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentaire->setEtablissement($etablissement);
+            $commentaire->setDateCreation(new \DateTimeImmutable());
+            $em->persist($commentaire);
+            $em->flush();
+
+            $this->addFlash('success', 'Commentaire ajouté avec succès.');
+            return $this->redirectToRoute('app_etablissement_show', ['id' => $etablissement->getId()]);
+        }
+
         return $this->render('etablissement/visionnage.html.twig', [
             'etablissement' => $etablissement,
+            'formCommentaire' => $form->createView(),
         ]);
     }
+
 }
