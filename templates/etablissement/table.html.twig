@@ -61,3 +61,6 @@
 <div class="my-4 text-center">
     <a href="{{ path('app_etablissement') }}" class="btn btn-secondary">Retour à la liste générale</a>
 </div>
+<div class="pagination justify-content-center">
+    {{ knp_pagination_render(etablissements) }}
+</div>

@@ -7,9 +7,5 @@
         <h1 class="my-4 text-center">Liste complète des établissements</h1>
 
         {% include 'etablissement/table.html.twig' %}
-
-        <div class="pagination justify-content-center">
-            {{ knp_pagination_render(etablissements) }}
-        </div>
     </div>
 {% endblock %}
