@@ -173,7 +173,7 @@ final class EtablissementController extends AbstractController
             return $this->redirectToRoute('app_etablissement');
         }
 
-        return $this->render('etablissement/form.html.twig', [
+        return $this->render('etablissement/ajout.html.twig', [
             'form' => $form->createView(),
         ]);
     }
