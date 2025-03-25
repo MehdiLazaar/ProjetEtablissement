@@ -199,6 +199,9 @@ final class EtablissementController extends AbstractController
     public function supprimer(Request $request, Etablissement $etablissement, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$etablissement->getId(), $request->request->get('_token'))) {
+            foreach ($etablissement->getCommentaires() as $commentaire) {
+                $em->remove($commentaire);
+            }
             $em->remove($etablissement);
             $em->flush();
             $this->addFlash('success', 'Établissement supprimé avec succès.');
