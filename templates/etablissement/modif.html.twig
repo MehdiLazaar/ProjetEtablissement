@@ -9,30 +9,125 @@
                 <h2 class="mb-0">Modifier l'établissement</h2>
             </div>
             <div class="card-body">
+
+                {# Affiche les erreurs globales (ex: CSRF) #}
                 {% for error in form.vars.errors %}
                     <div class="alert alert-danger">{{ error.message }}</div>
                 {% endfor %}
 
-                {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+                {{ form_start(form) }}
 
                 <div class="row g-3">
-                    {% for field in form %}
-                        {% if field.vars.name != '_token' %}
-                            <div class="col-md-6">
-                                {{ form_label(field, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                                {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
-                                {% for error in field.vars.errors %}
-                                    <div class="text-danger small">{{ error.message }}</div>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+
+                    <div class="col-md-6">
+                        {{ form_row(form.appellationOfficiel, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.denominationPrincipale, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.secteur, {
+                            label_attr: {'class': 'form-label fw-bold'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.longitude, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.latitude, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.adresse, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.departement, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.commune, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.region, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.academie, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.dateOuverture, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.code_departement, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.code_region, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.code_academie, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.code_commune, {
+                            label_attr: {'class': 'form-label fw-bold'},
+                            attr: {'class': 'form-control'}
+                        }) }}
+                    </div>
+
+                    {{ form_row(form._token) }}
                 </div>
 
-                {{ form_row(form._token) }}
-
-                <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-success">
+                <div class="mt-4 text-center">
+                    <button type="submit" class="btn btn-success px-4">
                         Mettre à jour
                     </button>
                     <a href="{{ path('app_etablissement') }}" class="btn btn-secondary ms-2">Annuler</a>

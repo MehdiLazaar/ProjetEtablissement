@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer l'établissement{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h2 class="text-center mb-4 text-danger">
+            Voulez-vous vraiment supprimer l'établissement « {{ etablissement.appellationOfficiel }} » ?
+        </h2>
+
+        <div class="text-center">
+            <form method="post"
+                  action="{{ path('app_etablissement_supprimer', { id: etablissement.id }) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ etablissement.id) }}">
+
+                <button type="submit" class="btn btn-danger me-2">
+                    Confirmer la suppression
+                </button>
+
+                <a href="{{ path('app_etablissement_show', { id: etablissement.id }) }}" class="btn btn-secondary">
+                    Annuler
+                </a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un établissement{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1 class="mb-4 text-center">Ajouter un établissement</h1>
+
+        {{ form_start(form) }}
+        {% for error in form.vars.errors %}
+            <div class="alert alert-danger">
+                {{ error.message }}
+            </div>
+        {% endfor %}
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                {{ form_row(form.appellationOfficiel, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.denominationPrincipale, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.secteur, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.longitude, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.latitude, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.adresse, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.departement, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.commune, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.region, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.academie, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.dateOuverture, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.code_departement, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.code_region, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.code_academie, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(form.code_commune, {
+                    label_attr: {'class': 'form-label fw-bold'},
+                    attr: {'class': 'form-control'}
+                }) }}
+            </div>
+        </div>
+
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-primary px-4">
+                Ajouter
+            </button>
+        </div>
+
+        {{ form_end(form) }}
+        <p>
+            <a href="{{ path('app_etablissement') }}" class="btn btn-secondary">
+                Retour à la liste
+            </a>
+        </p>
+    </div>
+{% endblock %}

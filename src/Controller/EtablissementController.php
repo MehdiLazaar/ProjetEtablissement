@@ -170,7 +170,9 @@ final class EtablissementController extends AbstractController
             $em->persist($etablissement);
             $em->flush();
             $this->addFlash('success', 'Établissement ajouté avec succès.');
-            return $this->redirectToRoute('app_etablissement');
+            return $this->redirectToRoute('app_etablissement_show', [
+                'id' => $etablissement->getId(),
+            ]);
         }
 
         return $this->render('etablissement/ajout.html.twig', [
@@ -208,6 +210,13 @@ final class EtablissementController extends AbstractController
         }
 
         return $this->redirectToRoute('app_etablissement');
+    }
+    #[Route('/etablissement/confirmation-suppression/{id}', name: 'app_etablissement_confirmation_supprimer', methods: ['GET'])]
+    public function confirmationSupprimer(Etablissement $etablissement): Response
+    {
+        return $this->render('etablissement/supprimer.html.twig', [
+            'etablissement' => $etablissement
+        ]);
     }
     #[Route('/etablissement/{id}', name: 'app_etablissement_show', methods: ['GET', 'POST'])]
     public function VisionnageEtablissement(Etablissement $etablissement, Request $request, EntityManagerInterface $em): Response

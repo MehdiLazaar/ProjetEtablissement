@@ -51,10 +51,10 @@
         <div class="text-center mt-4">
             <a href="{{ path('app_etablissement_modifier', { id: etablissement.id }) }}" class="btn btn-warning">✏ Modifier</a>
 
-            <form method="post" action="{{ path('app_etablissement_supprimer', { id: etablissement.id }) }}" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet établissement ?');">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ etablissement.id) }}">
-                <button type="submit" class="btn btn-danger">🗑 Supprimer</button>
-            </form>
+            <a href="{{ path('app_etablissement_confirmation_supprimer', { id: etablissement.id }) }}"
+               class="btn btn-danger">
+                🗑 Supprimer
+            </a>
 
             <a href="{{ path('app_etablissement') }}" class="btn btn-secondary">⬅ Retour à la liste</a>
         </div>
