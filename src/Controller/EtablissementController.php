@@ -186,10 +186,12 @@ final class EtablissementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
             $this->addFlash('success', 'Établissement modifié avec succès.');
-            return $this->redirectToRoute('app_etablissement');
+            return $this->redirectToRoute('app_etablissement_show', [
+                'id' => $etablissement->getId(),
+                ]);
         }
 
-        return $this->render('etablissement/form.html.twig', [
+        return $this->render('etablissement/modif.html.twig', [
             'form' => $form->createView(),
         ]);
     }
