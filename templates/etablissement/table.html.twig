@@ -1,11 +1,21 @@
+{% if etablissements|length > 0 %}
+    {% set firstEtab = etablissements|first %}
+{% endif %}
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
     <div class="container-fluid justify-content-between">
-        <a href="{{ path('app_etablissement_ajout') }}" class="btn btn-success">
+        <a href="" class="btn btn-success">
             ➕ Nouveau établissement
         </a>
-        <a href="" class="btn btn-outline-primary">
-            🗺️ Vue cartographique
-        </a>
+        {% if firstEtab is defined %}
+            <a href="{{ path('app_etablissement_cartographie_commune', {'code_commune': firstEtab.codeCommune}) }}" class="btn btn-outline-primary">
+                🗺️ Vue cartographique
+            </a>
+        {% else %}
+            <a href="#" class="btn btn-outline-primary disabled">
+                🗺️ Vue cartographique
+            </a>
+        {% endif %}
     </div>
 </nav>
 <table class="table table-bordered table-striped table-hover">
@@ -23,9 +33,12 @@
     <tbody>
     {% for etablissement in etablissements %}
         <tr>
-            <td> <a href="{{ path('app_etablissement_show', { id: etablissement.id }) }}" class="btn btn-sm btn-outline-primary">
+            <td>
+                <a href="{{ path('app_etablissement_show', { id: etablissement.id }) }}" class="btn btn-sm btn-outline-primary">
                     🔍 Voir
-                </a> {{ etablissement.appellationOfficiel }}</td>
+                </a>
+                {{ etablissement.appellationOfficiel }}
+            </td>
             <td>{{ etablissement.denominationPrincipale }}</td>
             <td>{{ etablissement.commune }}</td>
             <td>{{ etablissement.departement }}</td>

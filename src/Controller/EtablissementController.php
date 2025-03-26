@@ -159,6 +159,35 @@ final class EtablissementController extends AbstractController
             'code_academie' => $code_academie,
         ]);
     }
+    #[Route('/etablissement/cartographieCommune/{code_commune}', name: 'app_etablissement_cartographie_commune', methods: ['GET'])]
+    public function cartographieCommune(int $code_commune, EtablissementRepository $repo): Response
+    {
+        // Récupérer uniquement les champs nécessaires pour afficher la carte
+        $query = $repo->createQueryBuilder('e')
+            ->select('partial e.{id,appellationOfficiel,latitude,longitude,commune,code_commune}')
+            ->where('e.code_commune = :code')
+            ->setParameter('code', $code_commune)
+            ->getQuery();
+
+        $etablissements = $query->getResult();
+
+        // Pour l'affichage, on peut utiliser le nom de la commune du premier établissement (s'il existe)
+        $communeName = !empty($etablissements) ? $etablissements[0]->getCommune() : 'Inconnue';
+
+        // Récupérer la liste distincte des communes (code et nom)
+        $communes = $repo->createQueryBuilder('e')
+            ->select('DISTINCT e.commune AS nom, e.code_commune AS code')
+            ->orderBy('e.commune', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('etablissement/cartographie_commune.html.twig', [
+            'etablissements' => $etablissements,
+            'commune' => ['code' => $code_commune, 'nom' => $communeName],
+            'communes' => $communes,
+        ]);
+    }
+
     #[Route('/etablissement/ajout', name: 'app_etablissement_ajout', methods: ['GET', 'POST'])]
     public function ajout(Request $request, EntityManagerInterface $em): Response
     {
@@ -218,7 +247,7 @@ final class EtablissementController extends AbstractController
             'etablissement' => $etablissement
         ]);
     }
-    #[Route('/etablissement/{id}', name: 'app_etablissement_show', methods: ['GET', 'POST'])]
+    #[Route('/etablissement/{id}', name: 'app_etablissement_show', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function VisionnageEtablissement(Etablissement $etablissement, Request $request, EntityManagerInterface $em): Response
     {
         $commentaire = new Commentaire();

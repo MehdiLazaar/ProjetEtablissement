@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+{% endblock %}
+
+{% block title %}Cartographie par Commune - {{ commune.nom }}{% endblock %}
+
+{% block body %}
+    <div class="container my-4">
+        <h1 class="text-center mb-4">Cartographie des établissements de la commune {{ commune.nom }}</h1>
+        <div class="mb-4 text-center">
+            <label for="communeSelect" class="form-label">Changer de commune :</label>
+            <select id="communeSelect" class="form-select" onchange="window.location.href=this.value;">
+                {% for c in communes %}
+                    <option value="{{ path('app_etablissement_cartographie_commune', {'code_commune': c.code}) }}"
+                            {% if c.code == commune.code %} selected {% endif %}>
+                        {{ c.nom }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Conteneur de la carte -->
+        <div id="map" style="height: 500px;"></div>
+
+        <div class="text-center mt-3">
+            <a href="{{ path('app_etablissement') }}" class="btn btn-primary">Retour à l'accueil</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fonction qui dessine la carte et y ajoute les marqueurs
+            const draw_map = (data) => {
+                const map = L.map('map')
+                    .fitBounds(data.map(d => [d.lat, d.lon]))
+                    .addLayer(L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }));
+                data.forEach(etablissement => {
+                    L.marker([etablissement.lat, etablissement.lon])
+                        .addTo(map)
+                        .bindPopup("<b>" + etablissement.nom + "</b>");
+                });
+            };
+            const data = [
+                {% for etablissement in etablissements %}
+                {
+                    nom: "{{ etablissement.appellationOfficiel|escape('js') }}",
+                    lat: {{ etablissement.latitude }},
+                    lon: {{ etablissement.longitude }}
+                }{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ];
+
+            draw_map(data);
+        });
+    </script>
+{% endblock %}
