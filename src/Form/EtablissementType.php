@@ -30,8 +30,8 @@ class EtablissementType extends AbstractType
                     'Public' => Visibilitee::PUBLIC,
                     'Privé' => Visibilitee::PRIVATE,
                 ],
-                'expanded' => true,  // Boutons radio
-                'multiple' => true,  // ✅ Accepte un tableau
+                'expanded' => true,
+                'multiple' => true,
                 'label' => 'Secteur'
             ])
             ->add('code_departement')
