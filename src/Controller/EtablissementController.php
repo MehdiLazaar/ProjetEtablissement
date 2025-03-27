@@ -10,6 +10,7 @@ use App\Repository\EtablissementRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -269,5 +270,22 @@ final class EtablissementController extends AbstractController
             'formCommentaire' => $form->createView(),
         ]);
     }
+    #[Route('/recherche', name: 'app_etablissement_recherche', methods: ['GET'])]
+    public function rechercher(Request $request): RedirectResponse
+    {
+        $type = $request->query->get('type');
+        $query = $request->query->get('query');
 
+        if (!$type || !$query) {
+            return $this->redirectToRoute('app_etablissement'); // Redirection par défaut si vide
+        }
+
+        return match ($type) {
+            'commune' => $this->redirectToRoute('app_etablissements_commune_nom', ['commune' => $query]),
+            'region' => $this->redirectToRoute('app_etablissements_region_nom', ['region' => $query]),
+            'academie' => $this->redirectToRoute('app_etablissements_academie_nom', ['academie' => $query]),
+            'departement' => $this->redirectToRoute('app_etablissements_departement_nom', ['departement' => $query]),
+            default => $this->redirectToRoute('app_etablissement'),
+        };
+    }
 }

@@ -6,6 +6,16 @@
         <a href="{{ path('app_etablissement_ajout')}}" class="btn btn-success">
             ➕ Nouveau établissement
         </a>
+        <form method="get" action="{{ path('app_etablissement_recherche') }}" class="d-flex align-items-center">
+            <select name="type" class="form-select me-2">
+                <option value="commune">Commune (Nom)</option>
+                <option value="region">Région (Nom)</option>
+                <option value="academie">Académie (Nom)</option>
+                <option value="departement">Département (Nom)</option>
+            </select>
+            <input type="text" name="query" class="form-control me-2" placeholder="Rechercher..." required>
+            <button type="submit" class="btn btn-outline-primary">Recherche</button>
+        </form>
         {% if firstEtab is defined %}
             <a href="{{ path('app_etablissement_cartographie_commune', {'code_commune': firstEtab.codeCommune}) }}" class="btn btn-outline-primary">
                 🗺️ Vue cartographique
