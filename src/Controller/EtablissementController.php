@@ -145,6 +145,8 @@ final class EtablissementController extends AbstractController
         ]);
     }
 
+
+    /*Controller*/
     #[Route('/etablissements/academie/code/{code_academie}', name: 'app_etablissements_academie_code',methods: ['GET'])]
     public function listeParCodeAcademie(int $code_academie, EtablissementRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
