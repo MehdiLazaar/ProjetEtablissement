@@ -129,7 +129,7 @@ final class EtablissementController extends AbstractController
         ]);
     }
 
-    #[Route('/etablissements/region/code/{code_region}', name: 'app_etablissements_region_code',methods: ['GET'])]
+    #[Route('/etablissements/region/code/{code_regitgion}', name: 'app_etablissements_region_code',methods: ['GET'])]
     public function listeParCodeRegion(int $code_region, EtablissementRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $query = $repository->createQueryBuilder('e')

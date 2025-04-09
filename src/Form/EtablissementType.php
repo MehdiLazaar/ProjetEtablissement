@@ -31,7 +31,7 @@ class EtablissementType extends AbstractType
                     'Privé' => Visibilitee::PRIVATE,
                 ],
                 'expanded' => true,
-                'multiple' => true,
+                'multiple' => false,
                 'label' => 'Secteur'
             ])
             ->add('code_departement')
